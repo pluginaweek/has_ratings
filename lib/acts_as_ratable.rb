@@ -21,24 +21,43 @@ module PluginAWeek #:nodoc:
       def self.included(base) #:nodoc:
         base.extend(MacroMethods)
       end
-    
+      
       module MacroMethods
         # 
         #
         def acts_as_ratable(*args, &extension)
           create_options = {
             :foreign_key_name => :ratable,
-            :extend => RatingExtension
+            :extend => RatingExtension,
+            :actor => :rater
           }
           
           options, rating_class, association_id = create_acts_association(:rating, create_options, {}, *args, &extension)
           options.reverse_merge!(
-            :in => 1..5,
             :rater_names => "#{association_id.to_s.singularize}rs"
           )
           
-          rating_class.class_eval do
-            validates_inclusion_of :value, :in => options[:in]
+          if options[:in]
+            rating_class.class_eval do
+              validates_inclusion_of :value, :in => options[:in]
+            end
+          else
+            const_set('RatingValue', Class.new(::RatingValue)).class_eval do
+              has_many  :ratings,
+                          :class_name => rating_class.name,
+                          :foreign_key => nil,
+                          :conditions => 'value = #{rank}'
+            end
+            
+            rating_class.class_eval do
+              def name
+                self.class::RatingValue.find_by_rank(value).name
+              end
+              
+              validate do |model|
+                model.errors.add 'value', 'is not included in the list' if self.class::RatingValue.find_by_rank(value).nil?
+              end
+            end
           end
           
           # Add domain-specific aliases if rating/raters is not being used
