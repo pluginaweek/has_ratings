@@ -15,6 +15,8 @@
 # WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'acts_association_helper'
+
 module PluginAWeek #:nodoc:
   module Acts #:nodoc:
     module Ratable #:nodoc:
@@ -129,4 +131,8 @@ module PluginAWeek #:nodoc:
       end
     end
   end
+end
+
+ActiveRecord::Base.class_eval do
+  include PluginAWeek::Acts::Ratable
 end
