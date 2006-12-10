@@ -44,7 +44,7 @@ module PluginAWeek #:nodoc:
               validates_inclusion_of :value, :in => options[:in]
             end
           else
-            const_set('RatingValue', Class.new(::RatingValue)).class_eval do
+            Class.create('RatingValue', :superclass => ::RatingValue, :parent => self) do
               has_many  :ratings,
                           :class_name => rating_class.name,
                           :foreign_key => nil,
