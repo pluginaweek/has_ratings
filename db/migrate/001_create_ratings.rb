@@ -4,11 +4,11 @@ class CreateRatings < ActiveRecord::Migration
       t.column :ratable_id, :integer,   :null => false, :unsigned => true, :references => nil
       t.column :rater_id,   :integer,   :null => false, :unsigned => true, :references => nil
       t.column :rater_type, :string,    :null => false
-      t.column :value_id,   :integer,   :null => false, :unsigned => true, :references => :rating_values
+      t.column :value,      :integer,   :null => false
       t.column :created_at, :datetime,  :null => false
       t.column :type,       :string,    :null => false
     end
-    add_index :ratings, [:ratable_id, :rater_id, :type, :rater_type], :unique => true, :name => 'unique_ratings'
+    add_index :ratings, [:ratable_id, :rater_id, :type, :rater_type], :unique => true
   end
   
   def self.down

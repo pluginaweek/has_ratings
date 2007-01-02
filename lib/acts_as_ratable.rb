@@ -1,20 +1,3 @@
-# Copyright (c) 2006 FortiusOne, Inc.
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
-# associated documentation files (the "Software"), to deal in the Software without restriction, including
-# without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the
-# following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all copies or substantial
-# portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-# LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-# NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-# WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-# SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 require 'acts_association_helper'
 
 module PluginAWeek #:nodoc:
@@ -26,7 +9,6 @@ module PluginAWeek #:nodoc:
       
       module MacroMethods
         # 
-        #
         def acts_as_ratable(*args, &extension)
           create_options = {
             :foreign_key_name => :ratable,
@@ -39,27 +21,22 @@ module PluginAWeek #:nodoc:
             :rater_names => "#{association_id.to_s.singularize}rs"
           )
           
-          if options[:in]
-            rating_class.class_eval do
-              validates_inclusion_of :value, :in => options[:in]
+          rating_class.class_eval do
+            if options[:in]
+              validates_inclusion_of  :value,
+                                        :in => options[:in]
+            else
+              validates_inclusion_of  :value,
+                                        :in => self.class::RatingName,
+                                        :evaluate => Proc.new {|rating_name| rating_name.value}
             end
-          else
-            Class.create('RatingValue', :superclass => ::RatingValue, :parent => self) do
-              has_many  :ratings,
-                          :class_name => rating_class.name,
-                          :foreign_key => nil,
-                          :conditions => 'value = #{rank}'
-            end
-            
-            rating_class.class_eval do
-              def name
-                self.class::RatingValue.find_by_rank(value).name
-              end
-              
-              validate do |model|
-                model.errors.add 'value', 'is not included in the list' if self.class::RatingValue.find_by_rank(value).nil?
-              end
-            end
+          end
+          
+          Class.create('RatingName', :superclass => ::RatingName, :parent => self) do
+            has_many  :ratings,
+                        :class_name => rating_class.name,
+                        :foreign_key => nil,
+                        :conditions => 'value = #{value}'
           end
           
           # Add domain-specific aliases if rating/raters is not being used
@@ -84,7 +61,6 @@ module PluginAWeek #:nodoc:
       
       module RatingExtension
         #
-        #
         def average
           inject(0) {|total, rating| total += rating.value} / size.to_f
         end
@@ -96,7 +72,6 @@ module PluginAWeek #:nodoc:
         # number or a range.  To find items with a minimum rating, use -1 as the end of the range.
         # Example:
         # find_all_by_rating(3..-1)  # Finds all with a rating of at least 3
-        # 
         def find_all_by_rating(count, ratings, options = {}, association_id = 'ratings')
           ratings = send(association_id)
           
@@ -122,7 +97,6 @@ module PluginAWeek #:nodoc:
       end
       
       module InstanceMethods
-        #
         #
         def raters(association_id = 'ratings')
           ratings = send(association_id)
