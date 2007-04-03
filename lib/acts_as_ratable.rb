@@ -1,4 +1,5 @@
 require 'acts_association_helper'
+require 'class_associations'
 
 module PluginAWeek #:nodoc:
   module Acts #:nodoc:
@@ -10,46 +11,38 @@ module PluginAWeek #:nodoc:
       module MacroMethods
         # 
         def acts_as_ratable(*args, &extension)
-          create_options = {
-            :foreign_key_name => :ratable,
+          default_options = {
+            :as => :ratable,
             :extend => RatingExtension,
-            :actor => :rater
+            :create_inner_class => true
           }
+          association_id, rating_class, options = create_acts_association(:rating, default_options, *args, &extension)
           
-          options, rating_class, association_id = create_acts_association(:rating, create_options, {}, *args, &extension)
-          options.reverse_merge!(
-            :rater_names => "#{association_id.to_s.singularize}rs"
-          )
+          class << self
+            has_many :rating_names
+          end
           
+          # Add validations for the numerical value range
+          model = self
           rating_class.class_eval do
             if options[:in]
               validates_inclusion_of  :value,
                                         :in => options[:in]
             else
               validates_inclusion_of  :value,
-                                        :in => self.class::RatingName,
-                                        :evaluate => Proc.new {|rating_name| rating_name.value}
+                                        :in => model.rating_names,
+                                        :evaluate => Proc.new {|rating_name| rating_name.value},
+                                        :if => :ratable_id?
             end
           end
           
-          Class.create('RatingName', :superclass => ::RatingName, :parent => self) do
-            has_many  :ratings,
-                        :class_name => rating_class.name,
-                        :foreign_key => nil,
-                        :conditions => 'value = #{value}'
-          end
-          
           # Add domain-specific aliases if rating/raters is not being used
-          if self.reflections[association_id].macro == :has_many && association_id != :ratings
+          if options[:counter] == :many && association_id != :ratings
             class_eval <<-end_eval
               class << self
                 def find_all_by_#{association_id.to_s.singularize}(count, ratings, options = {})
                   find_all_by_rating(count, ratings, options, '#{association_id}')
                 end
-              end
-              
-              def #{options[:rater_names]}
-                raters('#{association_id}')
               end
             end_eval
           end
@@ -57,10 +50,17 @@ module PluginAWeek #:nodoc:
           extend PluginAWeek::Acts::Ratable::ClassMethods
           include PluginAWeek::Acts::Ratable::InstanceMethods
         end
+        
+        def acts_as_rater(*args, &extension)
+          default_options = {
+            :as => :rater
+          }
+          create_acts_association(:rating, default_options, *args, &extension)
+        end
       end
       
       module RatingExtension
-        #
+        # 
         def average
           inject(0) {|total, rating| total += rating.value} / size.to_f
         end
