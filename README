@@ -1,31 +1,50 @@
-== acts_as_ratable
+== has_ratings
 
-acts_as_ratable .
+has_ratings demonstrates a reference implementation for handling ratings.
 
 == Resources
 
 Wiki
 
-* http://wiki.pluginaweek.org/Acts_as_ratable
+* http://wiki.pluginaweek.org/Has_ratings
 
-Announcement
+API
 
-* http://www.pluginaweek.org/
+* http://api.pluginaweek.org/has_ratings
 
 Source
 
-* http://svn.pluginaweek.org/trunk/plugins/active_record/acts/acts_as_ratable
+* http://svn.pluginaweek.org/trunk/has_ratings
 
 Development
 
-* http://dev.pluginaweek.org/browser/trunk/plugins/active_record/acts/acts_as_ratable
+* http://dev.pluginaweek.org/browser/trunk/has_ratings
 
 == Description
 
+Storing ratings is a pretty common task when building web applications with a
+community-based focus.  Ratings can have names and values associated with them.
+This plugin demonstrate a simple way to manage what ratings can be used and
+how they are persisted.
 
+== Usage
 
-== References
+Note that this is a reference implementation and, most likely, should be
+modified for your own usage.
 
-Xelipe - This plugin is heavily influced by Acts As Tagglable.
-http://www.juixe.com/techknow/index.php/2006/06/18/acts-as-commentable-plugin/
-http://www.juixe.com/projects/acts_as_commentable
+=== Example
+
+  user = User.find(1)
+  video = Video.find(1)
+  
+  video.ratings.create(:rater => user, :value => :poor)
+
+== Testing
+
+Before you can run any tests, the following gem must be installed:
+* plugin_test_helper[http://wiki.pluginaweek.org/Plugin_test_helper]
+
+== Dependencies
+
+* plugins_plus[http://wiki.pluginaweek.org/Plugins_plus]
+* acts_as_enumeration[http://wiki.pluginaweek.org/Acts_as_enumeration]

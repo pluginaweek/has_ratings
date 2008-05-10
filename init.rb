@@ -1,1 +1,1 @@
-require 'acts_as_ratable'
+require 'has_ratings'
