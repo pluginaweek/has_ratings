@@ -1,9 +1,9 @@
-*SVN*
+== master
 
-*0.0.2* (June 22nd, 2008)
+== 0.0.2 / 2008-06-22
 
 * Remove log files from gems
 
-*0.0.1* (May 9th, 2008)
+== 0.0.1 / 2008-05-09
 
 * Initial public release
