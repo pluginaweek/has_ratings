@@ -37,7 +37,7 @@ modified for your own usage.
   user = User.find(1)
   video = Video.find(1)
   
-  video.ratings.create(:rater => user, :value => :poor)
+  video.ratings.create(:rater => user, :value => 'poor')
 
 == Testing
 
