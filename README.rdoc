@@ -38,6 +38,12 @@ modified for your own usage.
   video = Video.find(1)
   
   video.ratings.create(:rater => user, :value => 'poor')
+  video.ratings.average   # => 1.0
+
+== Assets
+
+Included with the plugin are image/stylesheet assets for creating raters using
+css as described at http://www.komodomedia.com/blog/2007/01/css-star-rating-redux
 
 == Testing
 

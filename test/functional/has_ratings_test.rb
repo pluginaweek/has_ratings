@@ -19,8 +19,8 @@ class VideoWithRatingsTest < Test::Unit::TestCase
     @video = create_video
     
     rater = create_user
-    @poor_rating = create_rating(:rater => rater, :ratable => @video, :value => :poor)
-    @average_rating = create_rating(:rater => rater, :ratable => @video, :value => :average)
+    @poor_rating = create_rating(:rater => rater, :ratable => @video, :value => 'poor')
+    @average_rating = create_rating(:rater => rater, :ratable => @video, :value => 'average')
   end
   
   def test_should_have_ratings
@@ -29,5 +29,20 @@ class VideoWithRatingsTest < Test::Unit::TestCase
   
   def test_should_have_an_average
     assert_equal 2.0, @video.ratings.average
+  end
+end
+
+class VideoWithRoundedAverageTest < Test::Unit::TestCase
+  def setup
+    @video = create_video
+    
+    rater = create_user
+    create_rating(:rater => rater, :ratable => @video, :value => 'above_average')
+    create_rating(:rater => rater, :ratable => @video, :value => 'excellent')
+    create_rating(:rater => rater, :ratable => @video, :value => 'excellent')
+  end
+  
+  def test_should_round_to_two_decimal_places
+    assert_equal 4.67, @video.ratings.average
   end
 end

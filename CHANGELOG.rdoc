@@ -1,5 +1,7 @@
 == master
 
+* Round to two decimal places for rating averages
+
 == 0.0.2 / 2008-06-22
 
 * Remove log files from gems

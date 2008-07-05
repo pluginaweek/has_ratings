@@ -44,7 +44,7 @@ end
 
 class RatingValueAfterBeingCreatedTest < Test::Unit::TestCase
   def setup
-    @rating_value = RatingValue[:poor]
+    @rating_value = RatingValue['poor']
   end
   
   def test_should_not_have_any_ratings
@@ -54,7 +54,7 @@ end
 
 class RatingValueWithRatingsTest < Test::Unit::TestCase
   def setup
-    @rating_value = RatingValue[:poor]
+    @rating_value = RatingValue['poor']
     @poor_rating = create_rating(:value => @rating_value)
     @second_poor_rating = create_rating(:value => @rating_value)
   end

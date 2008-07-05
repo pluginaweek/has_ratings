@@ -34,7 +34,7 @@ module Factory
     attributes[:rater] = create_user unless attributes.include?(:rater)
     
     attributes.reverse_merge!(
-      :value => :average
+      :value => 'average'
     )
   end
   
