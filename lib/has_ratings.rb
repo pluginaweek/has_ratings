@@ -1,12 +1,6 @@
 module PluginAWeek #:nodoc:
   # Adds a generic implementation for dealing with ratings
   module HasRatings
-    def self.included(base) #:nodoc:
-      base.class_eval do
-        extend PluginAWeek::HasRatings::MacroMethods
-      end
-    end
-    
     module MacroMethods
       # Creates the following association:
       # * +ratings+ - All ratings associated with the current record
@@ -56,5 +50,5 @@ module PluginAWeek #:nodoc:
 end
 
 ActiveRecord::Base.class_eval do
-  include PluginAWeek::HasRatings
+  extend PluginAWeek::HasRatings::MacroMethods
 end

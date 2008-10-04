@@ -1,5 +1,6 @@
 == master
 
+* Change how the base module is included to prevent namespacing conflicts
 * Round to two decimal places for rating averages
 
 == 0.0.2 / 2008-06-22
