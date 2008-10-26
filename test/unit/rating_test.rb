@@ -61,6 +61,24 @@ class RatingTest < Test::Unit::TestCase
     assert !rating.valid?
     assert_equal 1, Array(rating.errors.on(:value_id)).size
   end
+  
+  def test_should_protect_attributes_from_mass_assignment
+    rating = Rating.new(
+      :id => 1,
+      :ratable_id => 1,
+      :ratable_type => 'Video',
+      :rater_id => 1,
+      :rater_type => 'User',
+      :value_id => 2
+    )
+    
+    assert_nil rating.id
+    assert_equal 1, rating.ratable_id
+    assert_equal 'Video', rating.ratable_type
+    assert_equal 1, rating.rater_id
+    assert_equal 'User', rating.rater_type
+    assert_equal 2, rating.value_id
+  end
 end
 
 class RatingAfterBeingCreatedTest < Test::Unit::TestCase

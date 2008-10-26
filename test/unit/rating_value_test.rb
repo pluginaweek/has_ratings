@@ -40,6 +40,18 @@ class RatingValueTest < Test::Unit::TestCase
     rating_value = new_rating_value(:value => 1)
     assert_equal 1, rating_value.to_i
   end
+  
+  def test_should_protect_attributes_from_mass_assignment
+    rating_value = RatingValue.new(
+      :id => 6,
+      :name => 'awesome',
+      :value => 6
+    )
+    
+    assert_equal 6, rating_value.id
+    assert_equal 'awesome', rating_value.name
+    assert_equal 6, rating_value.value
+  end
 end
 
 class RatingValueAfterBeingCreatedTest < Test::Unit::TestCase
