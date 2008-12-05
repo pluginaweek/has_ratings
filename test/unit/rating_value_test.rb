@@ -27,13 +27,13 @@ class RatingValueTest < Test::Unit::TestCase
   def test_should_require_a_name
     rating_value = new_rating_value(:name => nil)
     assert !rating_value.valid?
-    assert_equal 1, Array(rating_value.errors.on(:name)).size
+    assert rating_value.errors.invalid?(:name)
   end
   
   def test_should_require_a_value
     rating_value = new_rating_value(:value => nil)
     assert !rating_value.valid?
-    assert_equal 1, Array(rating_value.errors.on(:value)).size
+    assert rating_value.errors.invalid?(:value)
   end
   
   def test_should_convert_to_an_integer

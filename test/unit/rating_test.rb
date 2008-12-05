@@ -35,31 +35,31 @@ class RatingTest < Test::Unit::TestCase
   def test_should_require_a_ratable_association
     rating = new_rating(:ratable => nil)
     assert !rating.valid?
-    assert_equal 1, Array(rating.errors.on(:ratable_id)).size
+    assert rating.errors.invalid?(:ratable_id)
   end
   
   def test_should_require_a_ratable_type
     rating = new_rating(:ratable => nil)
     assert !rating.valid?
-    assert_equal 1, Array(rating.errors.on(:ratable_type)).size
+    assert rating.errors.invalid?(:ratable_type)
   end
   
   def test_should_require_a_rater
     rating = new_rating(:rater => nil)
     assert !rating.valid?
-    assert_equal 1, Array(rating.errors.on(:rater_id)).size
+    assert rating.errors.invalid?(:rater_id)
   end
   
   def test_should_require_a_rater_type
     rating = new_rating(:rater => nil)
     assert !rating.valid?
-    assert_equal 1, Array(rating.errors.on(:rater_type)).size
+    assert rating.errors.invalid?(:rater_type)
   end
   
   def test_should_require_a_value
     rating = new_rating(:value => nil)
     assert !rating.valid?
-    assert_equal 1, Array(rating.errors.on(:value_id)).size
+    assert rating.errors.invalid?(:value_id)
   end
   
   def test_should_protect_attributes_from_mass_assignment
