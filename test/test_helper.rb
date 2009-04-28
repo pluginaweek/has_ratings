@@ -11,5 +11,3 @@ require File.expand_path("#{File.dirname(__FILE__)}/factory")
 Test::Unit::TestCase.class_eval do
   include Factory
 end
-
-RatingValue.enumerator_cache = nil
