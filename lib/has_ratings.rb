@@ -5,8 +5,8 @@ module HasRatings
     # * +ratings+ - All ratings associated with the current record
     # 
     # This association assumes that it is being created on the +ratable+
-    # model.  If you want to create an association on the +rater+ model, it will
-    # have to be created manually like so:
+    # model.  If you want to create an association on the +rater+ model,
+    # it will have to be created manually like so:
     # 
     #   has_many :ratings, :as => :rater
     # 
@@ -21,9 +21,7 @@ module HasRatings
     #   video.ratings.create(:rater => user, :value => 'excellent')
     #   video.ratings.average   # => 5
     def has_ratings
-      has_many  :ratings,
-                  :as => :ratable,
-                  :extend => RatingExtension
+      has_many :ratings, :as => :ratable, :extend => RatingExtension
     end
   end
   
@@ -34,7 +32,7 @@ module HasRatings
     # For example,
     # 
     #   video = Video.find_by_name('The Shawshank Redemption')
-    #   video.ratings.map {|rating| rating.value.value}   # => [4, 5, 5]
+    #   video.ratings.map {|rating| rating.value.to_i}    # => [4, 5, 5]
     #   video.ratings.average                             # => 4.67
     def average
       if empty?

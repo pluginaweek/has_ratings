@@ -36,17 +36,13 @@ module Factory
   build Rating do |attributes|
     attributes[:ratable] = create_video unless attributes.include?(:ratable)
     attributes[:rater] = create_user unless attributes.include?(:rater)
-    
-    attributes.reverse_merge!(
-      :value => 'average'
-    )
+    attributes[:value] = create_rating_value unless attributes.include?(:value)
   end
   
   build RatingValue do |attributes|
     attributes.reverse_merge!(
-      :id => 6,
       :name => 'awesome',
-      :value => 6
+      :value => 10
     )
   end
   

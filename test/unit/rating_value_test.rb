@@ -1,16 +1,12 @@
 require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 
-class RatingValueByDefaultTest < Test::Unit::TestCase
+class RatingValueByDefaultTest < ActiveRecord::TestCase
   def setup
     @rating_value = RatingValue.new
   end
   
-  def test_should_not_have_an_id
-    assert_nil @rating_value.id
-  end
-  
   def test_should_not_have_a_name
-    assert_nil @rating_value.name
+    assert @rating_value.name.blank?
   end
   
   def test_should_not_have_a_value
@@ -18,7 +14,7 @@ class RatingValueByDefaultTest < Test::Unit::TestCase
   end
 end
 
-class RatingValueTest < Test::Unit::TestCase
+class RatingValueTest < ActiveRecord::TestCase
   def test_should_be_valid_with_a_valid_set_of_attributes
     rating_value = new_rating_value
     assert rating_value.valid?
@@ -40,23 +36,11 @@ class RatingValueTest < Test::Unit::TestCase
     rating_value = new_rating_value(:value => 1)
     assert_equal 1, rating_value.to_i
   end
-  
-  def test_should_protect_attributes_from_mass_assignment
-    rating_value = RatingValue.new(
-      :id => 6,
-      :name => 'awesome',
-      :value => 6
-    )
-    
-    assert_equal 6, rating_value.id
-    assert_equal 'awesome', rating_value.name
-    assert_equal 6, rating_value.value
-  end
 end
 
-class RatingValueAfterBeingCreatedTest < Test::Unit::TestCase
+class RatingValueAfterBeingCreatedTest < ActiveRecord::TestCase
   def setup
-    @rating_value = RatingValue['poor']
+    @rating_value = create_rating_value
   end
   
   def test_should_not_have_any_ratings
@@ -64,9 +48,9 @@ class RatingValueAfterBeingCreatedTest < Test::Unit::TestCase
   end
 end
 
-class RatingValueWithRatingsTest < Test::Unit::TestCase
+class RatingValueWithRatingsTest < ActiveRecord::TestCase
   def setup
-    @rating_value = RatingValue['poor']
+    @rating_value = create_rating_value
     @poor_rating = create_rating(:value => @rating_value)
     @second_poor_rating = create_rating(:value => @rating_value)
   end

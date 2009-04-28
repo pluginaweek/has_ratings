@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 
-class VideoTest < Test::Unit::TestCase
+class VideoTest < ActiveRecord::TestCase
   def setup
     @video = create_video
   end
@@ -14,7 +14,7 @@ class VideoTest < Test::Unit::TestCase
   end
 end
 
-class VideoWithRatingsTest < Test::Unit::TestCase
+class VideoWithRatingsTest < ActiveRecord::TestCase
   def setup
     @video = create_video
     
@@ -32,7 +32,7 @@ class VideoWithRatingsTest < Test::Unit::TestCase
   end
 end
 
-class VideoWithRoundedAverageTest < Test::Unit::TestCase
+class VideoWithRoundedAverageTest < ActiveRecord::TestCase
   def setup
     @video = create_video
     

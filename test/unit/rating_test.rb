@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 
-class RatingByDefaultTest < Test::Unit::TestCase
+class RatingByDefaultTest < ActiveRecord::TestCase
   def setup
     @rating = Rating.new
   end
@@ -22,11 +22,11 @@ class RatingByDefaultTest < Test::Unit::TestCase
   end
   
   def test_should_not_have_a_value
-    assert_nil @rating.value
+    assert_nil @rating.value_id
   end
 end
 
-class RatingTest < Test::Unit::TestCase
+class RatingTest < ActiveRecord::TestCase
   def test_should_be_valid_with_a_valid_set_of_attributes
     rating = new_rating
     assert rating.valid?
@@ -61,27 +61,9 @@ class RatingTest < Test::Unit::TestCase
     assert !rating.valid?
     assert rating.errors.invalid?(:value_id)
   end
-  
-  def test_should_protect_attributes_from_mass_assignment
-    rating = Rating.new(
-      :id => 1,
-      :ratable_id => 1,
-      :ratable_type => 'Video',
-      :rater_id => 1,
-      :rater_type => 'User',
-      :value_id => 2
-    )
-    
-    assert_nil rating.id
-    assert_equal 1, rating.ratable_id
-    assert_equal 'Video', rating.ratable_type
-    assert_equal 1, rating.rater_id
-    assert_equal 'User', rating.rater_type
-    assert_equal 2, rating.value_id
-  end
 end
 
-class RatingAfterBeingCreatedTest < Test::Unit::TestCase
+class RatingAfterBeingCreatedTest < ActiveRecord::TestCase
   def setup
     @rating = create_rating
   end
