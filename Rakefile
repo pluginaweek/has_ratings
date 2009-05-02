@@ -7,7 +7,8 @@ spec = Gem::Specification.new do |s|
   s.name              = 'has_ratings'
   s.version           = '0.3.0'
   s.platform          = Gem::Platform::RUBY
-  s.summary           = 'Demonstrates a reference implementation for handling ratings.'
+  s.summary           = 'Demonstrates a reference implementation for handling ratings in ActiveRecord'
+  s.description       = s.summary
   
   s.files             = FileList['{app,assets,db,lib,test}/**/*'] + %w(CHANGELOG.rdoc init.rb LICENSE Rakefile README.rdoc) - FileList['test/app_root/{log,log/*,script,script/*}']
   s.require_path      = 'lib'
