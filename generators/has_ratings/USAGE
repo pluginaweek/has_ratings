@@ -1,0 +1,5 @@
+Usage:
+
+  script/generate has_ratings
+
+This will create migrations that will add the proper tables to store ratings.
