@@ -6,7 +6,7 @@ require 'rake/gempackagetask'
 
 spec = Gem::Specification.new do |s|
   s.name              = 'has_ratings'
-  s.version           = '0.3.0'
+  s.version           = '0.3.1'
   s.platform          = Gem::Platform::RUBY
   s.summary           = 'Demonstrates a reference implementation for handling ratings in ActiveRecord'
   s.description       = s.summary
