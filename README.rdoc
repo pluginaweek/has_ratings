@@ -6,7 +6,7 @@
 
 API
 
-* http://rdoc.info/projects/pluginaweek/has_ratings
+* http://rdoc.info/github/pluginaweek/has_ratings/master/frames
 
 Bugs
 
