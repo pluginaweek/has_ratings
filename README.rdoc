@@ -10,7 +10,7 @@ API
 
 Bugs
 
-* http://pluginaweek.lighthouseapp.com/projects/13276-has_ratings
+* http://github.com/pluginaweek/has_ratings/issues
 
 Development
 
