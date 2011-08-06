@@ -1,4 +1,4 @@
-== has_ratings
+== has_ratings http://travis-ci.org/pluginaweek/has_ratings.png
 
 +has_ratings+ demonstrates a reference implementation for handling ratings.
 
@@ -15,6 +15,10 @@ Bugs
 Development
 
 * http://github.com/pluginaweek/has_ratings
+
+Testing
+
+* http://travis-ci.org/pluginaweek/has_ratings
 
 Source
 
